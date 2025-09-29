@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" role="img" aria-label="Under construction">
+  <title>Under construction</title>
+  <defs>
+    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <!-- slightly reduced opacity for a less intense background -->
+      <stop offset="0" stop-color="#FFD84D" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFC107" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <!-- make outer frame transparent so the SVG blends with page background -->
+  <rect width="360" height="200" rx="14" fill="transparent"/>
+  <g transform="translate(20,16)">
+  <!-- inner panel with reduced opacity to further soften background -->
+  <rect width="320" height="168" rx="12" fill="url(#g)" stroke="#222" stroke-width="2" opacity="0.85"/>
+  <!-- diagonal stripes (more subtle) -->
+  <g opacity="0.06" fill="#000">
+      <rect x="-40" y="0" width="40" height="168" transform="skewX(-20) translate(0,0)"/>
+      <rect x="20" y="0" width="40" height="168" transform="skewX(-20) translate(80,0)"/>
+      <rect x="80" y="0" width="40" height="168" transform="skewX(-20) translate(160,0)"/>
+      <rect x="140" y="0" width="40" height="168" transform="skewX(-20) translate(240,0)"/>
+    </g>
+    <!-- warning triangle -->
+    <g transform="translate(160,24)">
+      <polygon points="0,0 44,80 -44,80" fill="#F57C00" stroke="#222" stroke-width="3" transform="translate(0,0) scale(1.6)"/>
+      <rect x="-8" y="26" width="16" height="26" rx="3" fill="#222"/>
+      <circle cx="0" cy="62" r="6" fill="#222"/>
+    </g>
+    <!-- text -->
+    <text x="160" y="124" text-anchor="middle" fill="#111" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="18">UNDER</text>
+    <text x="160" y="148" text-anchor="middle" fill="#111" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-weight="700" font-size="18">CONSTRUCTION</text>
+  </g>
+</svg>

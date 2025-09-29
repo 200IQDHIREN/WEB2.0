@@ -1,0 +1,287 @@
+/* Full-page dark gradient background */
+:root {
+  --bg-1: #020617; /* very dark navy */
+  --bg-2: #0f172a; /* dark slate */
+  --accent: #2dd4bf;
+  --text: #e6eef8;
+}
+/* Minimal reset / normalize to improve cross-device consistency */
+/* based on modern reset best-practices (box-sizing, remove default margins, consistent element defaults) */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%; /* prevent font-size adjustments after orientation changes in iOS */
+  -ms-text-size-adjust: 100%;
+  font-size: 16px; /* set a predictable root font-size */
+}
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+ul[role='list'], ol[role='list'] { list-style: none; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: var(--text);
+  background-color: var(--bg-1);
+  background-image: radial-gradient(1200px 600px at 10% 20%, rgba(45,212,191,0.06), transparent 15%),
+                    radial-gradient(900px 400px at 90% 80%, rgba(99,102,241,0.04), transparent 10%),
+                    linear-gradient(135deg, var(--bg-2) 0%, var(--bg-1) 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Starfield canvas sits behind everything and covers the viewport */
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* behind card which uses default stacking context */
+  pointer-events: none; /* allow clicks through */
+}
+
+/* ensure the .card and other content sit above the starfield */
+.card, .lightbox { position: relative; z-index: 1; }
+.card {
+  display: inline-flex; /* shrink-wrap to its content */
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+  max-width: calc(100% - 2rem); /* keep a small viewport padding */
+  padding: 0.5rem; /* snug padding so card closely fits images */
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  box-shadow: 0 6px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+}
+h1 { margin: 0 0 0.5rem 0; font-size: clamp(1.5rem, 3vw, 2.25rem); }
+p { margin: 0; opacity: 0.9; line-height: 1.5; }
+.hint { margin-top: 1rem; color: rgba(230,238,248,0.7); font-size: 0.9rem; }
+
+/* Gallery: centered, responsive images */
+.gallery {
+  display: flex;
+  gap: 2rem; /* space between images */
+  align-items: center;
+  justify-content: center;
+  margin: 0; /* remove extra top margin so card fits tightly */
+  flex-wrap: nowrap; /* force single row */
+  padding-bottom: 0.25rem; /* small room for scrollbar on some platforms */
+  width: -moz-max-content;
+  width: max-content; /* shrink to the content so the card matches gallery width */
+  overflow-x: auto; /* allow horizontal scroll on narrow viewports */
+}
+.gallery img {
+  /* responsive identical size using clamp; maintains 16:10 aspect ratio */
+  flex: 0 0 clamp(240px, 28vw, 420px);
+  width: clamp(240px, 28vw, 420px);
+  aspect-ratio: 16 / 10;
+  display: block;
+  object-fit: cover; /* ensure the image fills the box uniformly */
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.gallery img:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 18px 50px rgba(2,6,23,0.55);
+}
+
+/* Keep them in one row on small screens, allow scrolling */
+@media (max-width: 480px) {
+  /* slightly smaller but still identical sizes on small devices; allow wider images but keep same height ratio */
+  .gallery img { flex: 0 0 280px; width: 280px; height: 180px; }
+}
+
+/* Prevent context menu / search popups on specific images */
+.no-popup {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  /* note: user-drag is non-standard but left for broader support */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+}
+
+/* Anchor wrapper for images: fill the image box and be keyboard-focusable */
+.img-link {
+  display: inline-block;
+  flex: 0 0 clamp(240px, 28vw, 420px);
+  width: clamp(240px, 28vw, 420px);
+  aspect-ratio: 16 / 10;
+  line-height: 0; /* remove gaps below images */
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+}
+.img-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.img-link.img-small {
+  /* slightly smaller variant for specific tiles */
+  flex: 0 0 clamp(200px, 22vw, 360px);
+  width: clamp(200px, 22vw, 360px);
+}
+.img-link:focus {
+  outline: 3px solid rgba(45,212,191,0.22);
+  outline-offset: 4px;
+}
+.img-link:hover img { transform: translateY(-6px) scale(1.02); }
+
+/* Play badge overlay centered on top of the image (CSS-only via ::after with inline SVG data URI) */
+.img-link { position: relative; }
+.img-link.has-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64% 64%;
+  pointer-events: none; /* allow clicks to pass to the anchor */
+}
+
+.img1::after{
+ 
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64% 64%;
+  pointer-events: none; /* allow clicks to pass to the anchor */
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 200'><rect x='0' y='0' width='360' height='200' rx='40' ry='40' fill='%23ff0000'/><rect x='0' y='0' width='360' height='200' rx='40' ry='40' fill='rgba(0,0,0,0.06)'/><polygon points='140,50 260,100 140,150' fill='%23ffffff'/></svg>");
+}
+
+
+.img2::after{
+background-repeat: no-repeat;
+background-position: center;
+background-size: 64% 64%;
+pointer-events: none; /* allow clicks to pass to the anchor */
+
+background-image: url(images/DINO.svg)
+}
+
+
+.img3::after{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64% 64%;
+  pointer-events: none; /* allow clicks to pass to the anchor */
+
+ background-image: url(images/KINGKONGRUNNER.svg);
+}
+
+
+/* When the link has the badge, visually hide the underlying image but keep it in DOM for accessibility */
+.img-link.has-badge img {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+}
+/* Non-link placeholders that visually match .img-link but are inert (no pointer interaction) */
+.img-link.no-link {
+  cursor: default;
+  pointer-events: none; /* completely inert */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+/* Lightbox modal styles */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.lightbox.open { pointer-events: auto; opacity: 1; }
+.lightbox-backdrop {
+  position: absolute; inset: 0; background: rgba(2,6,23,0.6); backdrop-filter: blur(4px);
+}
+.lightbox-content {
+  position: relative;
+  width: min(92vw, 1100px);
+  height: min(80vh, 640px);
+  background: rgba(2,6,23,0.9);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(2,6,23,0.7);
+}
+.lightbox-body { width: 100%; height: 100%; }
+.lightbox iframe { width: 100%; height: 100%; display: block; }
+.lightbox-close { position: absolute; right: 10px; top: 8px; z-index: 2; background: transparent; color: #fff; border: 0; font-size: 22px; cursor: pointer; }
+
+
+/* object used to embed the SVG so internal SVG links can be interactive */
+.svg-object {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  pointer-events: auto; /* allow clicks inside the embedded SVG */
+}
+
+/* ensure other images inside .img-link still have pointer events disabled on background */
+.img-link:not(.no-popup) img { pointer-events: none; }
+
+/* Remove visible outline for the first image when not using keyboard navigation */
+.img-link.no-outline:focus {
+  outline: none;
+}
+/* Prefer showing outline only when it is keyboard-initiated */
+@supports selector(:focus-visible) {
+  .img-link:focus { outline: none; }
+  .img-link:focus-visible { outline: 3px solid rgba(45,212,191,0.22); outline-offset: 4px; }
+  .img-link.no-outline:focus-visible { outline: none; }
+}
+
+/* Responsive breakpoints to make the page fit well across devices */
+@media (max-width: 900px) {
+  body { padding: 1.25rem; }
+  .card { padding: 0.5rem; }
+  .gallery { gap: 1.25rem; }
+  /* slightly smaller images on medium screens */
+  .img-link, .gallery img { width: clamp(220px, 34vw, 380px); flex: 0 0 clamp(220px, 34vw, 380px); }
+  /* smaller modifier for .img-small on medium screens */
+  .img-link.img-small { width: clamp(200px, 30vw, 340px); flex: 0 0 clamp(200px, 30vw, 340px); }
+  .lightbox-content { width: min(94vw, 900px); height: min(76vh, 600px); }
+}
+
+@media (max-width: 640px) {
+  /* Stack the images vertically on narrow screens for a consistent, scroll-free layout */
+  .gallery { flex-direction: column; gap: 1rem; width: 100%; align-items: center; }
+  .img-link, .gallery img {
+    width: min(92%, 420px);
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 10;
+  }
+  .card { padding: 0.5rem; }
+  body { padding: 1rem; }
+  .lightbox-content { width: 96vw; height: 56vh; }
+}
+
+@media (max-width: 420px) {
+  /* Very small phones: full-width images and reduced spacing */
+  body { padding: 0.75rem; }
+  .card { padding: 0.4rem; }
+  .gallery { gap: 0.75rem; }
+  .img-link, .gallery img { width: 100%; max-width: 100%; }
+  h1 { font-size: 1.25rem; }
+  .lightbox-content { width: 100vw; height: 62vh; border-radius: 8px; }
+}

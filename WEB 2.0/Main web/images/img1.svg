@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Image 1 with play badge and clone badge">
+  <rect width="100%" height="100%" fill="none"/>
+  <!-- subtle decorative circle -->
+  <circle cx="140" cy="120" r="100" fill="#2dd4bf" opacity="0.12" />
+
+  <!-- Title text (kept for context) -->
+  <text x="50%" y="18%" dominant-baseline="middle" text-anchor="middle" fill="#e6eef8" font-family="Arial, Helvetica, sans-serif" font-size="36">Image 1</text>
+
+  <!-- YouTube-style play badge (rounded rectangle + triangle) -->
+  <!-- Centered badge size 360x200 -->
+  <a xlink:href="https://youtube.d-hiren.com" target="_blank" rel="noopener noreferrer">
+    <g id="play-badge" transform="translate(220,200)">
+      <rect x="0" y="0" width="360" height="200" rx="40" ry="40" fill="#ff0000" />
+      <!-- subtle inner shadow using semi-transparent overlay -->
+      <rect x="0" y="0" width="360" height="200" rx="40" ry="40" fill="rgba(0,0,0,0.06)"/>
+      <!-- white play triangle -->
+      <polygon points="140,50 260,100 140,150" fill="#ffffff"/>
+    </g>
+  </a>
+
+  <!-- Small circular 'Clone' badge (placeholder for your avatar) -->
+  <g id="clone-badge" transform="translate(560,380)">
+    <circle cx="0" cy="0" r="44" fill="#111827" stroke="#2dd4bf" stroke-width="4" opacity="0.95"/>
+    <text x="0" y="4" text-anchor="middle" fill="#e6eef8" font-family="Arial, Helvetica, sans-serif" font-size="14">Clone</text>
+  </g>
+
+</svg>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KingKong Runner Offline</title>
+  <!-- React + Babel -->
+  <script src="./react.development.js"></script>
+  <script src="./react-dom.development.js"></script>
+  <script src="./babel.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: linear-gradient(135deg, #111827, #1e3a8a, #312e81);
+      color: white;
+    }
+    .btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: #374151;
+      color: #fff;
+      border: 1px solid #4b5563;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn:hover { background: #4b5563; }
+    .card {
+      background: rgba(31, 41, 55, 0.9);
+      backdrop-filter: blur(6px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 1rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Load Game -->
+  <script type="text/babel" src="./Game.jsx"></script>
+
+  <!-- Mount -->
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<Game />);
+  </script>
+</body>
+</html>
