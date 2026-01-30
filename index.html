@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Main Cite</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<!-- Canvas for animated starfield background -->
+		<canvas id="starfield" aria-hidden="true"></canvas>
+		<main class="card" role="main">
+			
+			<!-- Image gallery centered -->
+			<section class="gallery" aria-label="Sample images">
+				<a href="/sub web 1/youtubeclone.html" class="img-link no-outline has-badge img1" aria-label="Open image 1">
+
+				</a>
+
+				<a href="/sub web 2/dino.html" class="img-link img-small no-outline has-badge img2" aria-label="Open image 2">
+
+				</a>
+
+				<a href="/sub web 3/index.html" class="img-link img-small no-outline has-badge img3" aria-label="Open image 3">
+
+				</a>
+			</section>
+			
+		</main>
+
+		<!-- Lightbox modal -->
+		<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+		  <div class="lightbox-backdrop" data-close="true"></div>
+		  <div class="lightbox-content" role="document">
+		    <button class="lightbox-close" aria-label="Close">✕</button>
+		    <div class="lightbox-body">
+		      <iframe src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Video"></iframe>
+		    </div>
+		  </div>
+		</div>
+
+		<script src="scripts.js" defer></script>
+	</body>
+</html>
